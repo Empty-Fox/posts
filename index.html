@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    function ajax_get_json(){
+      var hr = new XMLHttpRequest();
+      hr.open("POST", "mylist.json", true);
+      hr.setRequestHeader("Content-type", "application/json");   
+      hr.send(JSON.stringify({ "u8": { "user":"qaz", "age":111, "country":"qazzz" } }));
+  }
+  function ajax_post_json(){
+    var results = document.getElementById("results");
+      var hr = new XMLHttpRequest();
+       hr.open("GET", "mylist.json", true);    
+      hr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      hr.onreadystatechange = function() {
+        if(hr.readyState == 4 && hr.status == 200) {
+          var data = JSON.parse(hr.responseText);
+        results.innerHTML = "";
+        for(var obj in data){
+          results.innerHTML += data[obj].user+" is "+data[obj].age+" and lives in "+data[obj].country+"<hr />";
+        }
+        }
+      }
+       hr.send(null);    
+      results.innerHTML = "requesting...";
+  }
+
+
+  const xhr = new XMLHttpRequest();
+
+// listen for `load` event
+xhr.onload = () => {
+
+    // print JSON response
+    if (xhr.status >= 200 && xhr.status < 300) {
+        // parse JSON
+        const response = JSON.parse(xhr.responseText);
+        console.log(response);
+    }
+};
+
+// create a JSON object
+const json = {
+    "email": "war@war.war",
+    "password": "war111"
+};
+
+// open request
+xhr.open('POST', 'https://reqres.in/api/login');
+
+// set `Content-Type` header
+xhr.setRequestHeader('Content-Type', 'application/json');
+
+// send rquest with JSON payload
+xhr.send(JSON.stringify(json));
+
+
+
+      </script>
+</head>
+<body>
+
+
+<!-- var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+var theUrl = "/json-handler";
+xmlhttp.open("POST", theUrl);
+xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xmlhttp.send(JSON.stringify({ "email": "hello@user.com", "response": { "name": "Tester" } })); -->
+
+
+  <div id="results"></div>
+  
+<!-- <script>ajax_get_json();ajax_post_json();</script> -->
+
+</body>
+</html>
